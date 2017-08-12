@@ -30,19 +30,20 @@ class Network_server(object):
                 data = data.decode()
                 #print(data)
                 
-
                 if 'test' in data:
                     print('test pass')
 
-                if 'MotorA' in data:
-                    value = re.findall('\d+', data)
-                    print('setting MotorA to value ', value )
+
                 #else:
                     #print ("recived data:", data)
 
             #else:
                 #print("no data")
-                    
+    def send(self,data):
+        data.encode()
+        print(data)
+        self.s.send(data)   
+                     
     def close(self):
          self.connection.close()
      

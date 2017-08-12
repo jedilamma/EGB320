@@ -1,10 +1,14 @@
-from Networking import Network_server 
-
+from Networking import * 
+from Gui import *
 #robot = rb.Robot()
 nws = Network_server()
-nws.connect()
+#nws.connect()
 isdone = True
 i = 0;
 
+gui = Gui()
+
+
 while 1:
-    nws.update()
+    gui.update()
+  #nws.update()
