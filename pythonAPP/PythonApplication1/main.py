@@ -44,22 +44,25 @@ from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsItem, QApplication
 
 class Settings():
-    WIDTH = 64.0
-    HEIGHT = 48.0
-    NUM_BLOCKS_X = 64
-    NUM_BLOCKS_Y = 48
+    width = 1024
+    height = 768
+    BLOCK_WIDTH = int(width/20)
+    BLOCK_HEIGHT = int(height/20)
+    NUM_BLOCKS_X = int(width/20)
+    NUM_BLOCKS_Y = int(height/20)
+
 
 class GameWindow(QGraphicsView):
     def __init__( self, parent = None ):
         super().__init__(parent)
 
-        self.sx = 640
-        self.sy = 480
+        self.sx = Settings.width
+        self.sy = Settings.height
         self.lines = []
         #self.draw_grid()
         #self.set_opacity(0.3)
         
-        self.scene = QGraphicsScene(0,0,Settings.WIDTH,Settings.HEIGHT)
+        self.scene = QGraphicsScene(0,0,Settings.width,Settings.height)
         self.setScene(self.scene)
        
         self.x = 0
@@ -78,19 +81,19 @@ class GameWindow(QGraphicsView):
 
         
     def draw_grid(self):
-        width = Settings.NUM_BLOCKS_X * Settings.WIDTH
-        height = Settings.NUM_BLOCKS_Y * Settings.HEIGHT
+        width = Settings.NUM_BLOCKS_X * Settings.BLOCK_WIDTH
+        height = Settings.NUM_BLOCKS_Y * Settings.BLOCK_HEIGHT
         #self.setSceneRect(0,0,width,height)
         
         #self.setItemIndexMethod(QTwidgets.QgraphicsScene.NoIndex)
         pen = QPen(QColor(0,0,0),1,Qt.SolidLine)
-        for x in range(0, Settings.NUM_BLOCKS_X+1):
-            xc = x * Settings.WIDTH         
-            self.lines.append(self.scene.addLine(xc,0,xc,height,pen))
+        for x in range(-320, Settings.NUM_BLOCKS_X+1):
+            xc = x * Settings.BLOCK_WIDTH         
+            self.lines.append(self.scene.addLine(xc,0-height/2,xc,height,pen))
 
-        for y in range(0 ,Settings.NUM_BLOCKS_Y+1):
-            yc = y * Settings.HEIGHT
-            self.lines.append(self.scene.addLine(0,yc,width,yc,pen))
+        for y in range(-240 ,Settings.NUM_BLOCKS_Y+1):
+            yc = y * Settings.BLOCK_HEIGHT
+            self.lines.append(self.scene.addLine(0-width/2,yc,width,yc,pen))
 
     def set_visible(self,visible=True):
         for line in self.lines:
@@ -115,7 +118,7 @@ app = QApplication(sys.argv)
 
 gw = GameWindow()
 gw.draw_grid()
-gw.resize(640,480)
+gw.resize(Settings.width,Settings.height)
 gw.show()
 
 
